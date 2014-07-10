@@ -38,14 +38,14 @@ var ComponentGenerator = yeoman.generators.NamedBase.extend({
         var token = '// [Scaffolded component registrations will be inserted here. To retain this feature, don\'t remove this comment.]',
             regex = new RegExp('^(\\s*)(' + token.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&') + ')', 'm'),
             modulePath = 'components/' + this.filename + '/' + this.filename,
-            lineToAdd = 'ko.components.register(\'' + this.filename + '\', { require: \'' + modulePath + '\' });',
+            lineToAdd = 'ko.components.register(\'' + this.filename + '\', require( \'../' + modulePath + '\' ) );',
             newContents = existingContents.replace(regex, '$1' + lineToAdd + '\n$&');
         fs.writeFile(startupFile, newContents);
         this.log(chalk.green('   registered ') + chalk.white(this.filename) + chalk.green(' in ') + chalk.white(startupFile));
 
-        if (fs.existsSync('gulpfile.js')) {
-            this.log(chalk.magenta('To include in build output, reference ') + chalk.white('\'' + modulePath + '\'') + chalk.magenta(' in ') + chalk.white('gulpfile.js'));
-        }
+        // if (fs.existsSync('gulpfile.js')) {
+        //     this.log(chalk.magenta('To include in build output, reference ') + chalk.white('\'' + modulePath + '\'') + chalk.magenta(' in ') + chalk.white('gulpfile.js'));
+        // }
     });
   }
 
